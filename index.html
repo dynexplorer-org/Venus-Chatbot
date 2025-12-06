@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Chatbot</title>
+    <link rel="stylesheet" href="./style.css">
+
+  </head>
+    
+  <body>
+  <!-- 聊天按鈕 -->
+<div id="chatbot" class="chat-button">
+	<svg id="hair" class="robot-layer" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<path d="M29.9988 24.148L5.8512 0L-5.0344e-05 5.85133L24.1476 29.9993L29.9988 24.148Z" fill="#0E75B4" />
+		<path d="M24.1487 0.00046199L0.00109863 24.1484L5.85235 29.9998L30 5.8518L24.1487 0.00046199Z" fill="#0E75B4" />
+	</svg>
+	<svg id="head" class="robot-layer" width="52" height="50" viewBox="0 0 52 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<path d="M26,0c20.24,0,26,5.49,26,26.47,0,23.84-10.75,23.53-26,23.53S0,50.31,0,26.47C0,5.49,5.76,0,26,0Z" fill="url(#head-color)" />
+		<defs>
+			<linearGradient id="head-color" x1="26" y1="0" x2="26" y2="50" gradientUnits="userSpaceOnUse">
+				<stop stop-color="#69D7FF" />
+				<stop offset="1" stop-color="#00B4F5" />
+			</linearGradient>
+		</defs>
+	</svg>
+	<svg id="face" class="robot-layer" width="44" height="36" viewBox="0 0 44 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<path d="M22,36c15.09,0,20.52-.87,21.83-16.94S39.44,0,22,0-1.1,3.45.17,19.06c1.3,16.07,6.74,16.94,21.83,16.94Z" fill="url(#face-color)" />
+		<defs>
+			<linearGradient id="face-color" x1="22" y1="0" x2="22" y2="36" gradientUnits="userSpaceOnUse">
+				<stop stop-color="#005284" />
+				<stop offset="1" stop-color="#0076BE" />
+			</linearGradient>
+		</defs>
+	</svg>
+	<svg id="expression" class="robot-layer" width="30" height="15" viewBox="0 0 32 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<path id="eye-l" d="M3.78,12c3.45,0,3.78-2.7,3.78-6S7.56,0,3.78,0,0,2.7,0,6s.33,6,3.78,6Z" fill="white" />
+		<path id="mouth" d="M13.05,12.76c-1.13-.45-.82,2.24,2.99,2.24,4.21,0,4.24-3.55,3.01-4.13-1.35-.64-1.75,3.6-5.99,1.89Z" fill="white" />
+		<path id="eye-r" d="M26.22,12c3.45,0,3.78-2.7,3.78-6s0-6-3.78-6-3.78,2.7-3.78,6,.33,6,3.78,6Z" fill="white" />
+	</svg>
+	<!-- 問候語泡泡 -->
+	<div class="greeting-bubble" id="greetingBubble"><strong>Hi there,</strong><br>How can we help you today</div>
+</div>
+<!-- 聊天視窗 -->
+<div id="chatWindow" class="chat-window">
+	<div class="chat-header">
+		<div class="header-left">
+			<button class="expand-button" id="expandButton">
+				<svg viewBox="0 0 24 24">
+					<path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z" />
+				</svg>
+			</button>
+		</div>
+		<h3>AI Customer Service Assistant</h3>
+		<button class="close-button" id="closeButton">
+			<svg viewBox="0 0 24 24">
+				<path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+			</svg>
+		</button>
+	</div>
+	<div class="chat-messages" id="chatMessages">
+		<!-- 訊息會動態加入這裡 -->
+	</div>
+	<div class="chat-input-area">
+		<div class="chat-input-group">
+			<input type="text" class="chat-input" id="chatInput" placeholder="Send a message...">
+			<button class="send-button" id="sendButton">
+				<svg viewBox="0 0 24 24">
+					<path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+				</svg>
+			</button>
+		</div>
+	</div>
+</div>
+    <script  src="./script.js"></script>
+
+  </body>
+  
+</html>
+<style>* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	background-color: #000;
+}
+
+/* 聊天按鈕 */
+/* .chat-button {
+	position: fixed;
+	bottom: 30px;
+	right: 30px;
+	width: 60px;
+	height: 60px;
+	background: linear-gradient(135deg, #2ebbee 0%, #0e75b4 100%);
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+	transition: all 0.3s ease;
+	z-index: 1000;
+} */
+/* .chat-button:hover {
+	transform: scale(1.1);
+	box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+} */
+/* .chat-button svg {
+	width: 30px;
+	height: 30px;
+	fill: white;
+} */
+/* .chat-button.hidden {
+	opacity: 0;
+	pointer-events: none;
+	transform: scale(0);
+} */
+
+/* #canvas {
+	position: fixed;
+	bottom: 32px;
+	right: 32px;
+	cursor: pointer;
+	box-shadow: inset 0 0 0 2px;
+} */
+#chatbot {
+	position: relative;
+	width: 64px;
+	height: 64px;
+	position: fixed;
+	bottom: 32px;
+	right: 32px;
+	cursor: pointer;
+	/* 	box-shadow: inset 0 0 0 2px red; */
+	/* 	filter: drop-shadow(0 6px 12px hsl(200 100% 50% / 0.6)); */
+	/* 	cursor: pointer; */
+	/* 	transform: scale(3); */
+	/* 		box-shadow: inset 0 0 0 2px red; */
+}
+.robot-layer {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(
+		calc(-50% + var(--offset-x, 0px)),
+		calc(-50% + var(--offset-y, 0px))
+	);
+	transition: transform 0.1s ease-out;
+	will-change: transform; /* 提示瀏覽器優化，浏览器会提前分配大量资源，反而可能导致性能下降 */
+}
+#chatbot:hover #hair {
+	transform: translate(
+			calc(-50% + var(--offset-x, 0px)),
+			calc(-50% + var(--offset-y, 0px))
+		)
+		rotate(-270deg);
+	transition: 0.3s ease-out;
+}
+
+/* 問候語泡泡 */
+.greeting-bubble {
+	position: fixed;
+	bottom: 33px;
+	right: 105px;
+	background: white;
+	padding: 12px 18px;
+	border-radius: 16px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+	opacity: 0;
+	transform: translateX(10px);
+	pointer-events: none;
+	transition: all 0.3s ease;
+	z-index: 999;
+	white-space: nowrap;
+	font-size: 14px;
+	color: #333;
+}
+
+.greeting-bubble::after {
+	content: "";
+	position: absolute;
+	right: -8px;
+	top: 65%;
+	transform: translateY(-50%);
+	width: 0;
+	height: 0;
+	border-left: 8px solid white;
+	border-top: 8px solid transparent;
+	border-bottom: 8px solid transparent;
+}
+
+.chat-button:hover .greeting-bubble {
+	opacity: 1;
+	transform: translateX(0);
+}
+
+/* 聊天視窗 */
+.chat-window {
+	position: fixed;
+	bottom: 32px;
+	right: 32px;
+	width: 380px;
+	height: 550px;
+	background: white;
+	border-radius: 20px;
+	box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+	display: flex;
+	flex-direction: column;
+	opacity: 0;
+	transform: translateY(20px) scale(0.95);
+	pointer-events: none;
+	transition: all 0.3s ease;
+	z-index: 1001;
+	overflow: hidden;
+}
+
+.chat-window.active {
+	opacity: 1;
+	transform: translateY(0) scale(1);
+	pointer-events: all;
+}
+
+.chat-window.expanded {
+	width: 410px;
+	height: 100vh;
+	right: 0;
+	bottom: 0;
+	border-radius: unset;
+}
+
+/* 聊天標題列 */
+.chat-header {
+	background: linear-gradient(135deg, #2ebbee 0%, #0e75b4 100%);
+	color: white;
+	padding: 10px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	position: relative;
+}
+
+.chat-header h3 {
+	/* position: absolute; */
+	/* left: 50%; */
+	/* transform: translateX(-50%); */
+	font-size: 16px;
+	font-weight: 600;
+	margin: 0;
+}
+
+.header-left {
+	display: flex;
+	gap: 10px;
+}
+
+.expand-button,
+.close-button {
+	background: rgba(255, 255, 255, 0);
+	border: none;
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: all 0.2s ease;
+}
+
+.expand-button:hover,
+.close-button:hover {
+	background: rgba(255, 255, 255, 0.1);
+}
+
+.expand-button svg,
+.close-button svg {
+	width: 24px;
+	height: 24px;
+	fill: white;
+}
+
+/* 對話區域 */
+.chat-messages {
+	flex: 1;
+	padding: 20px;
+	overflow-y: auto;
+	background: #f8f9fa;
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+}
+
+.chat-messages::-webkit-scrollbar {
+	width: 6px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+	background: #ddd;
+	border-radius: 3px;
+}
+
+/* 訊息 */
+.message {
+	display: flex;
+	align-items: flex-end;
+	gap: 10px;
+	animation: ani-message-show 0.3s ease;
+}
+@keyframes ani-message-show {
+	from {
+		opacity: 0;
+		transform: translateY(10px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+/* 多筆訊息 */
+.message.grouped {
+	margin-top: -10px;
+}
+.message.grouped .ai-avatar {
+	visibility: hidden;
+}
+
+.message.user {
+	justify-content: flex-end;
+}
+.message.ai {
+	justify-content: flex-start;
+}
+
+/* AI 頭像 */
+.ai-avatar {
+	width: 36px;
+	height: 36px;
+	/* 	border-radius: 50%; */
+	/* 	background-image: url("ai-avatar.png"); */
+	background-image: url("data:image/png;base64,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"); /* 使用 Base64 PNG 資料 */
+	background-size: contain; /* 確保圖片覆蓋整個圓形 */
+	background-position: center; /* 將圖片置中 */
+	background-repeat: no-repeat; /* 避免圖片重複 */
+}
+
+/* 訊息氣泡 */
+.message-bubble {
+	max-width: 75%;
+	padding: 12px 16px;
+	word-wrap: break-word;
+	line-height: 1.5;
+	font-size: 14px;
+}
+.message.user .message-bubble {
+	border-radius: 16px 16px 4px 16px;
+	/* 	background: linear-gradient(135deg, #2ebbee 0%, #0e75b4 100%); */
+	background: #2ebbee;
+	color: white;
+}
+.message.ai .message-bubble {
+	background: white;
+	color: #333;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+/* 開頭訊息 */
+.message.ai:not(.grouped) .message-bubble {
+	border-radius: 16px 16px 16px 4px;
+}
+/* 中間訊息 */
+.message.ai:not(.grouped) + .ai.grouped .message-bubble,
+.message.ai.grouped + .ai.grouped .message-bubble {
+	border-radius: 4px 16px 16px 4px;
+}
+/* 結尾訊息 */
+.message.ai.grouped:not(:has(+ .ai.grouped)) .message-bubble {
+	border-radius: 4px 16px 16px 16px;
+}
+
+/* 輸入區域 */
+.chat-input-area {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 10px;
+	border-top: 1px solid #eee;
+	background: white;
+	box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.chat-input-group {
+	display: flex;
+	flex: 1;
+	/* 	border: 1px solid #e0e0e0; */
+	/* 	background: #f5f5f5; */
+	/* 	border-radius: 12px; */
+}
+.chat-input {
+	flex: 1;
+	padding: 12px 16px;
+	border: none;
+	/* 	border: 2px solid #e0e0e0; */
+	/* 	border-radius: 25px; */
+	outline: none;
+	background: none;
+	font-size: 14px;
+	transition: all 0.2s ease;
+}
+
+/* .chat-input:focus {
+	border-color: #2ebbee;
+} */
+
+.send-button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	/* 	background: linear-gradient(135deg, #2ebbee 0%, #0e75b4 100%); */
+	/* 	color: white; */
+	/* 	color: linear-gradient(135deg, #2ebbee 0%, #0e75b4 100%); */
+	width: 40px;
+	height: 40px;
+	border: none;
+	border-radius: 50%;
+	cursor: pointer;
+	background: none;
+	transition: all 0.2s ease;
+}
+
+.send-button svg {
+	width: 20px;
+	height: 20px;
+	/* 	fill: white; */
+	fill: #2ebbee;
+}
+
+/* 輸入中動畫 */
+.typing-indicator {
+	display: flex;
+	gap: 4px;
+	padding: 12px 16px;
+}
+
+.typing-indicator span {
+	width: 8px;
+	height: 8px;
+	background: #999;
+	border-radius: 50%;
+	animation: typing 1.4s infinite;
+}
+
+.typing-indicator span:nth-child(2) {
+	animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+	animation-delay: 0.4s;
+}
+
+@keyframes typing {
+	0%,
+	60%,
+	100% {
+		transform: translateY(0);
+	}
+
+	30% {
+		transform: translateY(-10px);
+	}
+}
+
+/* 選單卡片容器 */
+.menu-cards-wrapper {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	position: relative;
+	width: 100%;
+}
+
+.menu-cards-container {
+	display: flex;
+	gap: 12px;
+	overflow-x: auto;
+	scroll-behavior: smooth;
+	padding: 5px 44px;
+	flex: 1;
+	scrollbar-width: none;
+}
+
+.menu-cards-container::-webkit-scrollbar {
+	display: none;
+}
+
+.card {
+	min-width: 200px;
+	background: white;
+	border-radius: 12px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	padding: 15px;
+	flex-shrink: 0;
+}
+
+.card .title {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-bottom: 12px;
+	font-weight: 600;
+	color: #333;
+	font-size: 15px;
+}
+
+.card-title-img {
+	font-size: 20px;
+}
+
+.card-button {
+	margin: 8px 0;
+	padding: 8px 12px;
+	background: #f0f0f0;
+	border-radius: 8px;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+
+.card-button:hover {
+	background: #e0e0e0;
+}
+
+.card-button a {
+	text-decoration: none;
+	color: #333;
+	font-size: 14px;
+}
+
+.scroll-button {
+	position: absolute;
+	background: rgba(255, 255, 255, 0.9);
+	border: 1px solid #ddd;
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	cursor: pointer;
+	display: none;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.scroll-button.right-button {
+	right: 0;
+}
+
+.scroll-button.visible {
+	display: flex;
+}
+
+.scroll-button:hover {
+	background: white;
+}
+
+.scroll-button svg {
+	width: 16px;
+	height: 16px;
+	fill: #333;
+}
+
+@media (max-width: 480px) {
+	.chat-window {
+		width: 100vw;
+		height: 100vh;
+		right: 0;
+		bottom: 0;
+		border-radius: unset;
+	}
+}</style>
+<script></script>
